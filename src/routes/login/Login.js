@@ -13,8 +13,11 @@ import s from './Login.css';
 
 const title = 'Log In';
 
+
+
 function Login(props, context) {
   context.setTitle(title);
+  
   return (
     <div className={s.root}>
       <div className={s.container}>
@@ -82,16 +85,18 @@ function Login(props, context) {
           </a>
         </div>
         <strong className={s.lineThrough}>OR</strong>
+		
+
         <form method="post">
           <div className={s.formGroup}>
-            <label className={s.label} htmlFor="usernameOrEmail">
+            <label className={s.label} htmlFor="usernameOremail">
               Username or email address:
             </label>
             <input
               className={s.input}
-              id="usernameOrEmail"
+              id="usernameOremail"
               type="text"
-              name="usernameOrEmail"
+              name="email"
               autoFocus
             />
           </div>

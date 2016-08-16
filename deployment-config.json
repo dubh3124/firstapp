@@ -1,0 +1,9 @@
+{
+    "type": "sftp",
+    "host": "192.241.227.180",
+    "username": "dubh3124",
+    "password": "Green3124!",
+    "port": 3122,
+    "remotePath": "/home/dubh3124/MyApp/",
+    "uploadOnSave": true
+}

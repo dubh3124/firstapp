@@ -28,9 +28,11 @@ import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port, auth } from './config';
-
+import mongoose from 'mongoose';
 const app = express();
 
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/auth');
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
@@ -46,6 +48,44 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+///
+// Registration
+// -------------------------------------------
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
+var User = mongoose.model('User', new Schema({
+	id: ObjectId,
+	firstname: String,
+	lastname: String,
+	email: {type: String, unique: true},
+	password: String,
+	
+}));
+
+
+app.post('/register', function(req, res){
+	var user = new User({
+		firstname: req.body.firstname,
+		lastname: req.body.lastname,
+		email: req.body.email,
+		password: req.body.password
+	
+		
+	});
+	user.save(function(err) {
+		if (err){
+			var err = "Oops! Something Went Wrong!";
+			if (err.code === 11000) {
+				error = "That email is already taken."
+			}
+			
+			res.render('/register', {error: error}); 
+		} else {
+			res.redirect('/');
+		}
+	});	
+});
+	
 //
 // Authentication
 // -----------------------------------------------------------------------------
@@ -69,6 +109,21 @@ app.get('/login/facebook/return',
   }
 );
 
+app.post('/login' , function(req, res) {
+	
+	User.findOne({email: req.body.email}, function(err, user) {
+		
+		if (!user) {
+			res.render('Login.js', {error: 'Invalid email or password.'});
+		} else {
+			if (req.body.password === user.password) {
+				res.redirect('/contact');
+			} else {
+				res.redirect('/login');
+			}
+		}
+	});
+});
 //
 // Register API middleware
 // -----------------------------------------------------------------------------
