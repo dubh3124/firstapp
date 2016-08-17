@@ -18,6 +18,14 @@ const title = 'Log In';
 function Login(props, context) {
   context.setTitle(title);
   
+  var error
+  var errormsg
+  if (error) {
+	  errormsg = (
+			<p> Error: {error} </p>
+		)
+  }
+  
   return (
     <div className={s.root}>
       <div className={s.container}>
@@ -85,7 +93,8 @@ function Login(props, context) {
           </a>
         </div>
         <strong className={s.lineThrough}>OR</strong>
-		
+			
+			{errormsg}
 
         <form method="post">
           <div className={s.formGroup}>

@@ -110,7 +110,6 @@ app.get('/login/facebook/return',
 );
 
 app.post('/login' , function(req, res) {
-	
 	User.findOne({email: req.body.email}, function(err, user) {
 		
 		if (!user) {
@@ -119,7 +118,7 @@ app.post('/login' , function(req, res) {
 			if (req.body.password === user.password) {
 				res.redirect('/contact');
 			} else {
-				res.redirect('/login');
+				res.render('Login.js', {error: 'Invalid email or password.'});
 			}
 		}
 	});
