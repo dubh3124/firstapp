@@ -18,8 +18,7 @@ const title = 'Log In';
 function Login(props, context) {
   context.setTitle(title);
   
-  var error
-  var errormsg
+  
   if (error) {
 	  errormsg = (
 			<p> Error: {error} </p>
